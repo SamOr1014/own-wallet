@@ -1,7 +1,5 @@
 import { AddEntryButton } from "@/components/AddEntryButton";
 import { DarkModeSwitch } from "@/components/DarkModeSwitch";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
 
 export default function Home() {
   return (

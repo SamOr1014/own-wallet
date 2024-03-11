@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { PlusIcon } from "lucide-react";
 
-export const AddEntryButton = () => {
+export const AddEntryButton = async () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
