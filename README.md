@@ -25,3 +25,5 @@ and at the root of the repo
 A container setup with the nextjs application and a PostgreSQL db will be build 
 
 The NextJs application will be hosted at `localhost:3000` and the database will be hosted at `localhost:5432`. You can modify the port in the `compose.yaml` file.
+
+After the container is built, if the database has not been setup yet, go into the terminal of the next app container and run `yarn migrate` or `yarn tsx scripts/migrate`

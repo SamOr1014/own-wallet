@@ -1,8 +1,20 @@
 version: "3.8"
 
 services:
+  postgres:
+    image: postgres:16.2
+    restart: always
+    platform: linux/arm/v7
+    environment:
+      POSTGRES_DB: wallet
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+    ports:
+      - 5432:5432
   next-app:
     container_name: wallet
+    depends_on:
+      - postgres
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,22 +28,7 @@ services:
       - .env
     ports:
       - 3000:3000
-    networks:
-      - db
-  postgres:
-    image: postgres:16.2
-    restart: always
-    platform: linux/arm/v7
-    environment:
-      POSTGRES_DB: wallet
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: example
-    ports:
-      - 5432:5432
-    networks:
-      - db
+
   # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
-networks:
-  db:
