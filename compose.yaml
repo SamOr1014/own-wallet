@@ -10,10 +10,14 @@ services:
       - ./src:/app/src
       - ./public:/app/public
     restart: always
+    environment:
+      DB_ADDR: "postgresql://root:example@postgres:5432/wallet"
     env_file:
       - .env
     ports:
       - 3000:3000
+    networks:
+      - db
   postgres:
     image: postgres:16.2
     restart: always
@@ -24,9 +28,10 @@ services:
       POSTGRES_PASSWORD: example
     ports:
       - 5432:5432
+    networks:
+      - db
   # Add more containers below (nginx, postgres, etc.)
 # Define a network, which allows containers to communicate
 # with each other, by using their container name as a hostname
-# networks:
-#   my_network:
-#     external: true
+networks:
+  db:

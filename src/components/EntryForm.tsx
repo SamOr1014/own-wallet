@@ -10,34 +10,39 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { DialogFooter } from "@/components/ui/dialog";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/CustomDatePicker";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { InsertSpendingType } from "../../lib/schema";
+import { format } from "date-fns";
+
+type Props = {
+  saveAction: (val: InsertSpendingType) => void;
+};
 
 const formSchema = z.object({
-  date: z
-    .string({
-      required_error: "You need a date dumbass",
-    })
-    .datetime(),
+  date: z.date(),
   description: z.string(),
-  amount: z.number({ required_error: "You have to input a amount" }),
+  amount: z.number({ required_error: "You have to input a amount" }).min(1),
 });
 
-export const EntryForm = () => {
+export const EntryForm = ({ saveAction }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      date: new Date().toISOString(),
+      date: new Date(),
       description: "",
-      amount: 0,
+      amount: 1,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    saveAction({
+      ...values,
+      amount: values.amount.toString(),
+    });
   }
 
   return (
@@ -54,13 +59,12 @@ export const EntryForm = () => {
               <FormItem className="flex flex-col">
                 <FormLabel className="p-1">Date</FormLabel>
                 <FormControl>
-                  <DatePicker
-                    value={new Date(field.value)}
-                    onSelectDate={(date) => {
-                      form.setValue(
-                        "date",
-                        date?.toISOString() ?? new Date().toISOString()
-                      );
+                  <Input
+                    type="date"
+                    {...field}
+                    value={format(field.value, "yyyy-MM-dd")}
+                    onChange={(e) => {
+                      field.onChange(new Date(e.target.value));
                     }}
                   />
                 </FormControl>
@@ -105,7 +109,9 @@ export const EntryForm = () => {
           )}
         />
         <DialogFooter className="mt-5">
-          <Button type="submit">Add</Button>
+          <DialogClose>
+            <Button type="submit">Add</Button>
+          </DialogClose>
         </DialogFooter>
       </form>
     </Form>

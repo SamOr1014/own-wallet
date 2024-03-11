@@ -1,12 +1,27 @@
-#Description
+# Own Wallet
 
-Just a simple expense count App that is used to count daily consumption.
+Just a simple expense count App that is used to count daily consumption. 
 
-currently designed to work locally, all stuff will be saved by:
+Full stack app Created with [Next.js](https://github.com/vercel/next.js) and [Drizzle](https://github.com/drizzle-team/drizzle-orm).
 
-`yarn dev` to use it locally
+## Setup
 
-#Future development
 
-1. Add docker
-2. Add api and db connection
+### Start locally
+Please add a database URL (Postgresql) to the `.env` file before starting the app
+
+To use it locally: 
+
+`yarn dev` 
+
+### Start By Docker
+
+Make sure you have installed docker
+
+and at the root of the repo
+
+`docker compose up`
+
+A container setup with the nextjs application and a PostgreSQL db will be build 
+
+The NextJs application will be hosted at `localhost:3000` and the database will be hosted at `localhost:5432`. You can modify the port in the `compose.yaml` file.
